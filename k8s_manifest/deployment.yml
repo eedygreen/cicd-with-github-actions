@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location-API
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: location-API
+  template:
+    metadata:
+      labels:
+        app: location-API
+    spec:
+      containers:
+      - name: location-API
+        image: IMAGE_NAME: to be added
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: location-API
+  labels:
+    app: location-API
+
+spec:
+  containers:
+  - name: location-API
+    image: :latest
+    ports:
+    - containerPort: 8080
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 250m
+      limits:
+        memory: 2048Mi
+        cpu: 500m
+    env:
+    - 

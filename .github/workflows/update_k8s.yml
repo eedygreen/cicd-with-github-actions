@@ -1,0 +1,41 @@
+name: Update K8s Deployment
+
+on:  
+  push:
+    branches: [ "main" ]
+
+env:
+  # aws region
+  AWS_REGION: us-east-1
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_CLUSTER_NAME: ${{ secrets.AWS_CLUSTER_NAME }}
+
+jobs:
+  build-push:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Update KubeConfig
+        shell: bash
+        run: |
+          aws eks update-kubeconfig --name ${{ env.AWS_CLUSTER_NAME }} --region=${{ env.region }}
+
+      - name: Deploy To Cluster
+        shell: bash
+        run: kubectl apply -n default -f k8s_manifest/
