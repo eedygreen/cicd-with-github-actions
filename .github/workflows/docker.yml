@@ -50,15 +50,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: skip-workflow
-        id: skip-workflow # id used for referencing step
-        uses: saulmaldonado/skip-workflow@v1
-        with:
-          phrase: ${{ inputs.region == 'east-2' }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: render jinja2 templates to task definition json files
-        if: ${{ !steps.skip-workflow.outputs.skip }}
+        if: ${{ inputs.region }} == 'us-east'
         uses: cuchi/jinja2-action@v1.2.0
         with:
           template: 'relayers/ecs/task_definition-${{ env.ENVIRONMENT }}.j2'
