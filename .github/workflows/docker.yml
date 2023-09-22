@@ -52,7 +52,7 @@ jobs:
 
 
       - name: render jinja2 templates to task definition json files
-        if: ${{ inputs.region }} == 'us-east'
+        if: ${{ github.event.inputs.region == 'us-east' }}
         uses: cuchi/jinja2-action@v1.2.0
         with:
           template: 'relayers/ecs/task_definition-${{ env.ENVIRONMENT }}.j2'
