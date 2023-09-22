@@ -10,6 +10,10 @@ on:
         required: true
         default: 'latest' 
         type: string
+      region:
+        description: region
+        default: 'region'
+        type: string
 
 env:
   # Use docker.io for Docker Hub if empty
