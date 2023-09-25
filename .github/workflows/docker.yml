@@ -99,7 +99,7 @@ jobs:
           args: rollout status deploy my-pod -n ${{ env.KUBE_NAMESPACE }}
 
   build-test:
-    if: ${{ !github.event.inputs.region }}
+    if: ${{ github.event.inputs.region }} != "region"
     runs-on: ubuntu-latest
     permissions:
       contents: read
