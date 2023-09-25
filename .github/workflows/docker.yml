@@ -32,14 +32,18 @@ env:
 
 jobs:
   build-push:
-    if: ${{ github.event.inputs.docker_tag }} == "latest"
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
     steps:
+      - name: check input
+        id: check_input
+        run: echo "::set-output name=match::$(echo ${{ inputs.region }})"
+
       - name: Checkout repository
+        if: ${{ steps.check_input.outputs.match == 'string' }}
         uses: actions/checkout@v3
 
       # https://github.com/docker/login-action
