@@ -7,7 +7,7 @@ on:
     inputs:
       docker_tag:
         description: 'Docker tag'
-        required: true
+        required: false
         default: 'latest' 
         type: string
       region:
