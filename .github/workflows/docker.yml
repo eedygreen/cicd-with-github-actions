@@ -103,7 +103,7 @@ jobs:
           args: rollout status deploy my-pod -n ${{ env.KUBE_NAMESPACE }}
 
   build-test:
-    if: ${{ github.event.inputs.region }} == "stable"
+    if: ${{ github.event.inputs.region }} == "stable" || '^v\d+\.\d+\.\d+$'
     runs-on: ubuntu-latest
     permissions:
       contents: read
