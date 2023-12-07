@@ -111,7 +111,6 @@ jobs:
           args: rollout status deploy my-pod -n ${{ env.KUBE_NAMESPACE }}
 
   build-test:
-    if: contains(fromJson('["stable", "${{ env.Tag }}" ]'), github.event.inputs.deploy_v2)
     runs-on: ubuntu-latest
     permissions:
       contents: read
