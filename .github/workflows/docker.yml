@@ -41,7 +41,7 @@ jobs:
       - uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
-          text: ${{ github.event.inputs.release_tag }}
+          text: ${{ github.event.inputs.docker_tag }}
           regex: '^v\d*(.*?)\d*$'
           flags: gm
 
@@ -50,7 +50,6 @@ jobs:
         run: echo "::set-output name=match::$(echo ${{ inputs.region }})"
 
       - name: Checkout repository
-        if: ${{ steps.regex-match.outputs.match == inputs.docker_tag }}
         uses: actions/checkout@v3
 
       # https://github.com/docker/login-action
