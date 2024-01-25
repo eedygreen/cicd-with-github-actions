@@ -28,7 +28,6 @@ env:
   # create secrets with the base64 encoded values
   KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
   KUBE_NAMESPACE: production
-  Tag: 
 
 
 jobs:
