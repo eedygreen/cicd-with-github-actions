@@ -42,7 +42,7 @@ jobs:
       - uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
-          text: ${{ github.event.inputs.release_tag }}
+          text: ${{ github.event.inputs.docker_tag }}
           regex: '^v\d*(.*?)\d*$'
           flags: gm
 
@@ -51,7 +51,7 @@ jobs:
         run: echo "::set-output name=match::$(echo ${{ inputs.region }})"
 
       - name: Checkout repository
-        if: ${{ steps.regex-match.outputs.match != '' }}
+        if: ${{ steps.regex-match.outputs.match == inputs.docker_tag }}
         uses: actions/checkout@v3
 
       # https://github.com/docker/login-action
@@ -110,6 +110,21 @@ jobs:
         with:
           args: rollout status deploy my-pod -n ${{ env.KUBE_NAMESPACE }}
 
+      - uses: 8398a7/action-slack@v3
+        with:
+            status: custom
+            fields: workflow,job,commit,repo,ref,author,took
+            custom_payload: |
+              {
+                attachments: [{
+                  color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                  text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
+                }]
+              }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          if: always() #       
+
   build-test:
     runs-on: ubuntu-latest
     permissions:
@@ -147,3 +162,19 @@ jobs:
             awsAccountId=${{ env.AWS_STAGE }}
             awsRegion=${{ env.AWS_REGION }}
             awsEfs=${{ secrets.DEVNET_EFS_1 }}
+
+
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          fields: workflow,job,commit,repo,ref,author,took
+          custom_payload: |
+            {
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always() # 
