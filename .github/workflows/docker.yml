@@ -111,20 +111,27 @@ jobs:
         with:
           args: rollout status deploy my-pod -n ${{ env.KUBE_NAMESPACE }}
           
-      # - uses: 8398a7/action-slack@v3
-      #   with:
-      #       status: custom
-      #       fields: workflow,job,commit,repo,ref,author,took
-      #       custom_payload: |
-      #         {
-      #           attachments: [{
-      #             color: ${{ job.status }} ' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
-      #             text: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`,
-      #           }]
-      #         }
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #     if: always() #  
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.25.0
+        with:
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
       # - uses: 8398a7/action-slack@v3
       #   with:
