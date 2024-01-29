@@ -113,7 +113,7 @@ jobs:
           KUBE_CONFIG_DATA: ${{ env.KUBE_CONFIG_DATA }}
         with:
           args: rollout status deploy my-pod -n ${{ env.KUBE_NAMESPACE }}
-    
+          
       # - uses: 8398a7/action-slack@v3
       #   with:
       #       status: custom
