@@ -31,7 +31,7 @@ env:
 
 jobs:
   slack_notify:
-    uses: eedygreen/just-checking/blob/master/.github/workflows/call.yaml #eedygreen/just-checking/.github/workflows/call.yml@master
+    uses: eedygreen/just-checking/.github/workflows/call.yaml@v1 #eedygreen/just-checking/.github/workflows/call.yml@master
 
   build-push:
     runs-on: ubuntu-latest
