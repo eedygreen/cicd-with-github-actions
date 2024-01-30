@@ -29,6 +29,7 @@ env:
   KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
   KUBE_NAMESPACE: production
 
+
 jobs:
   slack_notify:
     uses: ./.github/workflows/slack_notify.yanl #eedygreen/just-checking/.github/workflows/call.yml@master
@@ -38,8 +39,11 @@ jobs:
     permissions:
       contents: read
       packages: write
-
+      
     steps:
+      - name: slack_notify
+        uses: eedygreen/just-checking@master
+        
       - uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
@@ -221,5 +225,3 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
-
-      - name: *Slack_Notify
