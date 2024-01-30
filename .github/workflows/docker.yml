@@ -32,7 +32,7 @@ env:
 
 jobs:
   slack_notify:
-    uses: ./.github/workflows/slack_notify.yanl #eedygreen/just-checking/.github/workflows/call.yml@master
+    uses: ./.github/workflows/slack.yml #eedygreen/just-checking/.github/workflows/call.yml@master
 
   build-push:
     runs-on: ubuntu-latest
