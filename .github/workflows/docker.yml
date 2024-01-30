@@ -30,9 +30,6 @@ env:
   KUBE_NAMESPACE: production
 
 jobs:
-  slack_notify:
-    uses: eedygreen/just-checking/.github/workflows/call.yml@master
-
   build-push:
     runs-on: ubuntu-latest
     permissions:
@@ -133,6 +130,9 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
+      - name: &Slack_Notify
+        uses: eedygreen/just-checking@slv1
+        
 
   build-test:
     runs-on: ubuntu-latest
@@ -204,3 +204,4 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
+      - name: *Slack_Notify
