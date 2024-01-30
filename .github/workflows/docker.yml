@@ -1,5 +1,6 @@
 name: Push Docker Image
 
+
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -30,7 +31,7 @@ env:
 
 jobs:
   slack_notify:
-    uses: eedygreen/just-checking/.github/workflows/call.yaml@v1 #eedygreen/just-checking/.github/workflows/call.yml@master
+    uses: ./.github/workflows/slack_notify.yanl #eedygreen/just-checking/.github/workflows/call.yml@master
 
   build-push:
     runs-on: ubuntu-latest
@@ -147,8 +148,7 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
-      - name: &Slack_Notify
-        uses: eedygreen/just-checking@slv1
+
         
 
   build-test:
