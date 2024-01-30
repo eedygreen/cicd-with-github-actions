@@ -1,17 +1,14 @@
-name: Slack Notfiy workflow
-on:
-  workflow_call:
+
+on: push
+name: Slack Notification
 jobs:
-  publish:
-    runs-on: ubuntu-latest 
-    permissions: 
-      contents: read
-      packages: write 
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
     steps:
-    - uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        fields: repo,message,commit,author,action,job,eventName,ref,workflow # selectable (default: repo,message)
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
       env:
-        SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}' # required
-      if: always()
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_COLOR: ${{ job.status }}
