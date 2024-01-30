@@ -39,7 +39,7 @@ jobs:
       
     steps:
       - name: slack_notify
-        uses: eedygreen/just-checking@98b465fc0c27da0460c4377532417f5c1d04c55f
+        uses: eedygreen/just-checking@master
         
       - uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
@@ -223,4 +223,4 @@ jobs:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
       - name: slack_notify
-        uses: eedygreen/just-checking@98b465fc0c27da0460c4377532417f5c1d04c55f
+        uses: eedygreen/just-checking@master
