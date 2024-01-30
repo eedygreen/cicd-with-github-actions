@@ -28,17 +28,19 @@ env:
   KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
   KUBE_NAMESPACE: production
 
+
 jobs:
-  slack_notify:
-    uses: eedygreen/just-checking/.github/workflows/call.yaml@v1 #eedygreen/just-checking/.github/workflows/call.yml@master
 
   build-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
+      
     steps:
+      - name: slack_notify
+        uses: eedygreen/just-checking@slv1
+        
       - uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
@@ -147,8 +149,7 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
-      - name: &Slack_Notify
-        uses: eedygreen/just-checking@slv1
+
         
 
   build-test:
@@ -221,5 +222,5 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
-
-      - name: *Slack_Notify
+      - name: slack_notify
+        uses: eedygreen/just-checking@slv1
