@@ -126,8 +126,11 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
-      - name: slack notify
-        uses: ./.github/workflows/slack.yml
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: ${{ job.status }}
 
   build-test:
     runs-on: ubuntu-latest
@@ -166,6 +169,11 @@ jobs:
             awsAccountId=${{ env.AWS_STAGE }}
             awsRegion=${{ env.AWS_REGION }}
             awsEfs=${{ secrets.DEVNET_EFS_1 }}
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: ${{ job.status }}
 
       # - uses: 8398a7/action-slack@v3
       #   with:
