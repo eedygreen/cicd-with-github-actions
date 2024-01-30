@@ -1,6 +1,5 @@
 name: Push Docker Image
 
-
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -138,8 +137,19 @@ jobs:
       #     status: ${{ job.status }}
       #     fields: repo,message,commit,author,action,job,eventName,ref,workflow # selectable (default: repo,message)
       #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     if: always() #  
+
+      # - uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ job.status }}
+      #     fields: repo,message,commit,author,action,job,eventName,ref,workflow # selectable (default: repo,message)
+      #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
+      - name: &Slack_Notify
+        uses: eedygreen/just-checking@slv1
+        
 
   build-test:
     runs-on: ubuntu-latest
@@ -211,3 +221,5 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
+
+      - name: *Slack_Notify
