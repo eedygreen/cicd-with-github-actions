@@ -31,8 +31,7 @@ env:
 
 
 jobs:
-  slack_notify:
-    uses: ./.github/workflows/slack.yml #eedygreen/just-checking/.github/workflows/call.yml@master
+ #eedygreen/just-checking/.github/workflows/call.yml@master
 
   build-push:
     runs-on: ubuntu-latest
@@ -127,8 +126,8 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
       #   if: always()
-
-        
+      - name: slack notify
+        uses: ./.github/workflows/slack.yml
 
   build-test:
     runs-on: ubuntu-latest
